@@ -15,17 +15,15 @@ const Container = ({
   errorMessage,
   feedbackItems,
   handleAddToList,
-}: ContainerProps) => {
-  return (
-    <main className="container">
-      <Header handleAddToList={handleAddToList} />
-      <FeedbackList
-        loading={loading}
-        errorMessage={errorMessage}
-        feedbackItems={feedbackItems}
-      />
-    </main>
-  );
-};
+}: ContainerProps) => (
+  <main className="container">
+    <Header handleAddToList={handleAddToList} />
+    <FeedbackList
+      loading={loading}
+      errorMessage={errorMessage}
+      feedbackItems={feedbackItems}
+    />
+  </main>
+);
 
 export default Container;

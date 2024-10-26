@@ -1,19 +1,24 @@
 import HashtagItem from '@/components/hashtag/HashtagItem';
 
 type HashtagListProps = {
-  companyList: string[];
+  uniqueCompanyNames: string[];
 };
 
-const HashtagList = ({ companyList }: HashtagListProps) => {
-  if (companyList.length === 0) return null;
+const HashtagList = ({ uniqueCompanyNames }: HashtagListProps) => {
+  if (uniqueCompanyNames.length === 0) return null;
 
   return (
     <ul className="hashtags">
-      {companyList.map((companyName) => {
+      {uniqueCompanyNames.map((companyName) => {
         const capitalizedCompanyName =
           companyName.substring(0, 1).toUpperCase() + companyName.substring(1);
 
-        return <HashtagItem capitalizedCompanyName={capitalizedCompanyName} />;
+        return (
+          <HashtagItem
+            key={capitalizedCompanyName}
+            capitalizedCompanyName={capitalizedCompanyName}
+          />
+        );
       })}
     </ul>
   );
