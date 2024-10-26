@@ -9,7 +9,7 @@ type FeedbackItemProps = {
 const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
   const { upvoteCount, badgeLetter, company, text, daysAgo } = feedbackItem;
 
-  const feedbackAddedOn = daysAgo === 0 ? 'NEW' : `${daysAgo}d`;
+  const feedbackStatus = daysAgo === 0 ? 'NEW' : `${daysAgo}d`;
 
   return (
     <li className="feedback">
@@ -27,7 +27,7 @@ const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
         <p>{text}</p>
       </div>
 
-      <p>{feedbackAddedOn}</p>
+      <p>{feedbackStatus}</p>
     </li>
   );
 };
