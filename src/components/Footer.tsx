@@ -11,7 +11,7 @@ const Footer = () => {
         </p>
       </small>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

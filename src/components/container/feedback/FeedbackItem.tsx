@@ -7,23 +7,27 @@ type FeedbackItemProps = {
 };
 
 const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
+  const { upvoteCount, badgeLetter, company, text, daysAgo } = feedbackItem;
+
+  const feedbackAddedOn = daysAgo === 0 ? 'NEW' : `${daysAgo}d`;
+
   return (
     <li className="feedback">
       <button>
         <TriangleUpIcon />
-        <span>{feedbackItem.upvoteCount}</span>
+        <span>{upvoteCount}</span>
       </button>
 
       <div>
-        <p>{feedbackItem.badgeLetter}</p>
+        <p>{badgeLetter}</p>
       </div>
 
       <div>
-        <p>{feedbackItem.company}</p>
-        <p>{feedbackItem.text}</p>
+        <p>{company}</p>
+        <p>{text}</p>
       </div>
 
-      <p>{feedbackItem.daysAgo === 0 ? 'NEW' : `${feedbackItem.daysAgo}d`}</p>
+      <p>{feedbackAddedOn}</p>
     </li>
   );
 };
