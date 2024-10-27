@@ -1,10 +1,18 @@
 type HashtagItemProps = {
   capitalizedCompanyName: string;
+  handleSelectCompany: (company: string) => void;
 };
 
-const HashtagItem = ({ capitalizedCompanyName }: HashtagItemProps) => (
+const HashtagItem = ({
+  capitalizedCompanyName,
+  handleSelectCompany,
+}: HashtagItemProps) => (
   <li key={capitalizedCompanyName}>
-    <button>#{capitalizedCompanyName}</button>
+    <button
+      onClick={() => handleSelectCompany(capitalizedCompanyName.toLowerCase())}
+    >
+      #{capitalizedCompanyName}
+    </button>
   </li>
 );
 
