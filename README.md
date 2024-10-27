@@ -9,6 +9,8 @@
 - Create `handleErrors.ts` file under _lib_ folder to move the switch case statements used to throw errors based on response status codes
 - Filter feedback list by company names i.e., `hashtags`
 - Implement `useMemo` hook to optimize the filter methods used in _App_ component
+- Filter feedback list by selecting multiple companies' hashtags
+- Create a `utils.ts` file under _lib_ folder to include the commonly used function to capitalize the company name
 
 ## To-dos
 
