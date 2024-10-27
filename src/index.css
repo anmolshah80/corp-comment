@@ -91,9 +91,13 @@ body {
 /* APP */
 .app {
   position: relative;
+  height: 850px;
+}
+
+.main {
   display: flex;
   justify-content: center;
-  height: 850px;
+  gap: 3rem;
 }
 
 /* CONTAINER */
@@ -107,7 +111,7 @@ body {
 
 /* HEADER */
 header {
-  height: 277px;
+  height: 300px;
   background-color: #121618;
   display: flex;
   flex-direction: column;
@@ -148,7 +152,7 @@ h1 *::selection {
 
 /* LOGO */
 .logo {
-  height: 27.5px;
+  height: 41px;
 }
 
 .logo::selection {
@@ -160,6 +164,7 @@ h1 *::selection {
   z-index: 1;
   backface-visibility: hidden;
   transform: translateZ(0);
+  width: 200px;
 }
 
 /* FORM */
@@ -494,9 +499,8 @@ form button span::selection {
 
 /* HASHTAGS */
 .hashtags {
-  position: absolute;
-  right: -137px;
-  top: 0px;
+  display: flex;
+  flex-direction: column;
 }
 
 .hashtags li {
@@ -506,7 +510,6 @@ form button span::selection {
 
 /* HASHTAG */
 .hashtags li button {
-  align-self: flex-start;
   font-size: 13px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.6);
@@ -531,12 +534,41 @@ form button span::selection {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.hashtag-filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 300px;
+  margin-bottom: 2rem;
+  column-gap: 1.25rem;
+  row-gap: 0.25rem;
+}
+
+.hashtag-filters li button {
+  transform: scale(1.06);
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.cross-circled-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.filters-header {
+  color: #fff;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
+  font-size: 1.75rem;
+}
+
 /* FOOTER */
 .footer {
-  position: absolute;
-  transform: rotate(-90deg);
-  left: -225px;
-  bottom: 174px;
+  margin-top: 1.75rem;
 }
 
 /* COPYRIGHT */
@@ -584,7 +616,7 @@ h1 > span {
 /* MEDIA QUERIES */
 @media (max-height: 925px) {
   body {
-    padding: 60px 0;
+    padding: 60px 0 100px 0;
   }
 }
 

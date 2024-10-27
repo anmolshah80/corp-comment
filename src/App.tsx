@@ -12,21 +12,31 @@ function App() {
   const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [selectedCompany, setSelectedCompany] = useState('');
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
 
   const filteredFeedbackItems = useMemo(
     () =>
-      selectedCompany
-        ? feedbackItems.filter(
-            (feedbackItem) =>
-              feedbackItem.company.toLowerCase() === selectedCompany,
+      selectedCompanies.length > 0
+        ? feedbackItems.filter((feedbackItem) =>
+            selectedCompanies.includes(feedbackItem.company.toLowerCase()),
           )
         : feedbackItems,
-    [selectedCompany, feedbackItems],
+    [selectedCompanies, feedbackItems],
   );
 
   const handleSelectCompany = (company: string) => {
-    setSelectedCompany(company);
+    setSelectedCompanies((previousValues) => [...previousValues, company]);
+  };
+
+  const handleRemoveSelectedCompany = (company: string) => {
+    if (company === 'all') {
+      setSelectedCompanies([]);
+      return;
+    }
+
+    setSelectedCompanies((previousValues) =>
+      previousValues.filter((selectedCompany) => selectedCompany !== company),
+    );
   };
 
   const uniqueCompanyNames = useMemo(
@@ -34,9 +44,12 @@ function App() {
       feedbackItems
         .map((feedbackItem) => feedbackItem.company.toLowerCase())
         .filter((company, index, array) => {
-          return array.indexOf(company) === index;
+          return (
+            !selectedCompanies.includes(company) &&
+            array.indexOf(company) === index
+          );
         }),
-    [feedbackItems],
+    [feedbackItems, selectedCompanies],
   );
 
   const postDataToServer = async (newItem: TFeedbackItem) => {
@@ -104,19 +117,23 @@ function App() {
 
   return (
     <div className="app">
+      <div className="main">
+        <Container
+          loading={loading}
+          errorMessage={errorMessage}
+          feedbackItems={filteredFeedbackItems}
+          handleAddToList={handleAddToList}
+        />
+
+        <HashtagList
+          uniqueCompanyNames={uniqueCompanyNames}
+          selectedCompanies={selectedCompanies}
+          handleSelectCompany={handleSelectCompany}
+          handleRemoveSelectedCompany={handleRemoveSelectedCompany}
+        />
+      </div>
+
       <Footer />
-
-      <Container
-        loading={loading}
-        errorMessage={errorMessage}
-        feedbackItems={filteredFeedbackItems}
-        handleAddToList={handleAddToList}
-      />
-
-      <HashtagList
-        uniqueCompanyNames={uniqueCompanyNames}
-        handleSelectCompany={handleSelectCompany}
-      />
     </div>
   );
 }
