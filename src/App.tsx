@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import Footer from '@/components/Footer';
 import Container from '@/components/container/Container';
@@ -12,12 +12,32 @@ function App() {
   const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedCompany, setSelectedCompany] = useState('');
 
-  const uniqueCompanyNames = feedbackItems
-    .map((feedbackItem) => feedbackItem.company.toLowerCase())
-    .filter((company, index, array) => {
-      return array.indexOf(company) === index;
-    });
+  const filteredFeedbackItems = useMemo(
+    () =>
+      selectedCompany
+        ? feedbackItems.filter(
+            (feedbackItem) =>
+              feedbackItem.company.toLowerCase() === selectedCompany,
+          )
+        : feedbackItems,
+    [selectedCompany, feedbackItems],
+  );
+
+  const handleSelectCompany = (company: string) => {
+    setSelectedCompany(company);
+  };
+
+  const uniqueCompanyNames = useMemo(
+    () =>
+      feedbackItems
+        .map((feedbackItem) => feedbackItem.company.toLowerCase())
+        .filter((company, index, array) => {
+          return array.indexOf(company) === index;
+        }),
+    [feedbackItems],
+  );
 
   const postDataToServer = async (newItem: TFeedbackItem) => {
     const response = await fetch(URL, {
@@ -89,11 +109,14 @@ function App() {
       <Container
         loading={loading}
         errorMessage={errorMessage}
-        feedbackItems={feedbackItems}
+        feedbackItems={filteredFeedbackItems}
         handleAddToList={handleAddToList}
       />
 
-      <HashtagList uniqueCompanyNames={uniqueCompanyNames} />
+      <HashtagList
+        uniqueCompanyNames={uniqueCompanyNames}
+        handleSelectCompany={handleSelectCompany}
+      />
     </div>
   );
 }

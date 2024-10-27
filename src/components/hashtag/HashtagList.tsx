@@ -2,9 +2,13 @@ import HashtagItem from '@/components/hashtag/HashtagItem';
 
 type HashtagListProps = {
   uniqueCompanyNames: string[];
+  handleSelectCompany: (company: string) => void;
 };
 
-const HashtagList = ({ uniqueCompanyNames }: HashtagListProps) => {
+const HashtagList = ({
+  uniqueCompanyNames,
+  handleSelectCompany,
+}: HashtagListProps) => {
   if (uniqueCompanyNames.length === 0) return null;
 
   return (
@@ -17,6 +21,7 @@ const HashtagList = ({ uniqueCompanyNames }: HashtagListProps) => {
           <HashtagItem
             key={capitalizedCompanyName}
             capitalizedCompanyName={capitalizedCompanyName}
+            handleSelectCompany={handleSelectCompany}
           />
         );
       })}
