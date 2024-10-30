@@ -460,6 +460,7 @@ form button span::selection {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  gap: 0.15rem;
 }
 
 .feedback > section > button {
@@ -487,8 +488,7 @@ form button span::selection {
   background-color: #f3f6f8;
 }
 
-.feedback > section > button:hover svg,
-.feedback > section > button:hover span {
+.feedback > section > button:hover svg {
   color: #784a86;
 }
 
@@ -512,10 +512,9 @@ form button span::selection {
   transition: all 0.2s;
 }
 
-.feedback > section > button span {
+.feedback > section > span {
   color: #6c6f76;
-  font-size: 11px;
-  margin-top: -1px;
+  font-size: 14px;
 }
 
 /* HASHTAGS */

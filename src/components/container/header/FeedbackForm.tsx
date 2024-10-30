@@ -44,7 +44,6 @@ const FeedbackForm = ({ handleAddToList }: FeedbackFormProps) => {
     handleAddToList(text);
 
     setText('');
-    setShowInvalidIndicator(false);
   };
 
   const formClassName = `form ${showValidIndicator ? 'form--valid' : ''} ${
