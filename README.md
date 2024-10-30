@@ -11,6 +11,8 @@
 - Implement `useMemo` hook to optimize the filter methods used in _App_ component
 - Filter feedback list by selecting multiple companies' hashtags
 - Create a `utils.ts` file under _lib_ folder to include the commonly used function to capitalize the company name
+- Upvote or downvote feedbacks upon clicking the button
+- Focus _textarea_ field on `/` (forward slash) keydown
 
 ## To-dos
 
