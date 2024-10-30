@@ -227,6 +227,7 @@ label {
   color: #fff;
   opacity: 0.42;
   pointer-events: none;
+  line-height: 24px;
 }
 
 label::selection,
@@ -454,11 +455,17 @@ form button span::selection {
 }
 
 /* UPVOTE BTN */
-.feedback > button {
+.feedback > section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.feedback > section > button {
   cursor: pointer;
-  height: 40px;
-  width: 40px;
-  border-radius: 6px;
+  height: 25px;
+  width: 38px;
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
@@ -466,32 +473,46 @@ form button span::selection {
   justify-content: center;
 }
 
-.feedback > button:hover {
+.feedback > section > button:first-child {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.feedback > section > button:last-child {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.feedback > section > button:hover {
   background-color: #f3f6f8;
 }
 
-.feedback > button:hover svg,
-.feedback > button:hover span {
+.feedback > section > button:hover svg,
+.feedback > section > button:hover span {
   color: #784a86;
 }
 
-.feedback > button:disabled svg {
-  display: none;
+.feedback > section > .active-vote-btn {
+  background-color: #f3f6f8;
 }
 
-.feedback > button:disabled {
+.feedback > section > .active-vote-btn svg {
+  color: #784a86;
+}
+
+.feedback > section > button:disabled {
   pointer-events: none;
 }
 
-.feedback > button svg {
+.feedback > section > button svg {
   color: #d7dbe2;
   width: 50px;
-  height: 20px;
+  height: 30px;
   display: block;
   transition: all 0.2s;
 }
 
-.feedback > button span {
+.feedback > section > button span {
   color: #6c6f76;
   font-size: 11px;
   margin-top: -1px;
@@ -716,4 +737,21 @@ h1 > span {
   margin-top: 2rem;
   margin-inline: 1rem;
   text-align: center;
+}
+
+.error-message--form {
+  color: #8a3d2c;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+  width: 470px;
+}
+
+.slash-key {
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.188rem;
+  text-align: center;
+  font-size: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.25);
 }
