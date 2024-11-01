@@ -13,6 +13,7 @@
 - Create a `utils.ts` file under _lib_ folder to include the commonly used function to capitalize the company name
 - Upvote or downvote feedbacks upon clicking the button
 - Focus _textarea_ field on `/` (forward slash) keydown
+- Use `context API` to avoid the unnecessary _props drilling_
 
 ## To-dos
 

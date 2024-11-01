@@ -2,14 +2,8 @@ import { CrossCircledIcon } from '@radix-ui/react-icons';
 
 import HashtagItem from '@/components/hashtag/HashtagItem';
 
+import { useAppContext } from '@/lib/hooks';
 import { capitalizeCompanyName } from '@/lib/utils';
-
-type HashtagListProps = {
-  uniqueCompanyNames: string[];
-  selectedCompanies: string[];
-  handleSelectCompany: (company: string) => void;
-  handleRemoveSelectedCompany: (company: string) => void;
-};
 
 type HashtagListFiltersProps = {
   selectedCompanies: string[];
@@ -36,9 +30,9 @@ const HashtagListFilters = ({
         </li>
       )}
 
-      {selectedCompanies.map((company) => {
+      {selectedCompanies.map((company, index) => {
         return (
-          <li>
+          <li key={company + index}>
             <button>
               {capitalizeCompanyName(company)}{' '}
               <CrossCircledIcon
@@ -53,12 +47,14 @@ const HashtagListFilters = ({
   );
 };
 
-const HashtagList = ({
-  uniqueCompanyNames,
-  selectedCompanies,
-  handleSelectCompany,
-  handleRemoveSelectedCompany,
-}: HashtagListProps) => {
+const HashtagList = () => {
+  const {
+    uniqueCompanyNames,
+    selectedCompanies,
+    handleSelectCompany,
+    handleRemoveSelectedCompany,
+  } = useAppContext('HashtagList');
+
   if (uniqueCompanyNames.length === 0 && selectedCompanies.length === 0)
     return null;
 
