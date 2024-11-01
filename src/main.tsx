@@ -3,14 +3,10 @@ import { createRoot } from 'react-dom/client';
 
 import App from '@/App.tsx';
 
-import AppContextProvider from '@/contexts/AppContextProvider';
-
 import '@/index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AppContextProvider>
-      <App />
-    </AppContextProvider>
+    <App />
   </StrictMode>,
 );
