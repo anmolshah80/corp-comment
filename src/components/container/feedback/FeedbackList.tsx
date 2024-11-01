@@ -2,31 +2,27 @@ import Spinner from '@/components/Spinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import FeedbackItem from '@/components/container/feedback/FeedbackItem';
 
+import { useAppContext, useFeedbackItemsContext } from '@/lib/hooks';
 import { TFeedbackItem } from '@/lib/types';
 
 type RenderFeedbackItemsProps = {
-  feedbackItems: TFeedbackItem[];
+  filteredFeedbackItems: TFeedbackItem[];
 };
 
-type FeedbackListProps = {
-  loading: boolean;
-  errorMessage: string;
-  feedbackItems: TFeedbackItem[];
-};
+const RenderFeedbackItems = ({
+  filteredFeedbackItems,
+}: RenderFeedbackItemsProps) => {
+  if (filteredFeedbackItems.length === 0) return null;
 
-const RenderFeedbackItems = ({ feedbackItems }: RenderFeedbackItemsProps) => {
-  if (feedbackItems.length === 0) return null;
-
-  return feedbackItems.map((feedbackItem) => (
+  return filteredFeedbackItems.map((feedbackItem) => (
     <FeedbackItem feedbackItem={feedbackItem} key={feedbackItem.id} />
   ));
 };
 
-const FeedbackList = ({
-  feedbackItems,
-  loading,
-  errorMessage,
-}: FeedbackListProps) => {
+const FeedbackList = () => {
+  const { filteredFeedbackItems } = useAppContext('FeedbackList');
+  const { loading, errorMessage } = useFeedbackItemsContext('FeedbackList');
+
   if (loading) {
     return (
       <ol className="feedback-list">
@@ -45,7 +41,7 @@ const FeedbackList = ({
 
   return (
     <ol className="feedback-list">
-      <RenderFeedbackItems feedbackItems={feedbackItems} />
+      <RenderFeedbackItems filteredFeedbackItems={filteredFeedbackItems} />
     </ol>
   );
 };

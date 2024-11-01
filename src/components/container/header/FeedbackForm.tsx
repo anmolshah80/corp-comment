@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { useFeedbackItemsContext } from '@/lib/hooks';
 import { MAX_CHARACTERS } from '@/lib/constants';
 
-type FeedbackFormProps = {
-  handleAddToList: (text: string) => void;
-};
-
-const FeedbackForm = ({ handleAddToList }: FeedbackFormProps) => {
+const FeedbackForm = () => {
   const [text, setText] = useState('');
   const [showValidIndicator, setShowValidIndicator] = useState(false);
   const [showInvalidIndicator, setShowInvalidIndicator] = useState(false);
+
+  const { handleAddToList } = useFeedbackItemsContext('FeedbackForm');
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const slashKeyCounterRef = useRef(0);
