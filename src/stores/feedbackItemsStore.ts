@@ -134,7 +134,6 @@ export const useFeedbackItemsStore = create<Store>()((set, get) => ({
 
         set(() => ({
           feedbackItems: data.feedbacks,
-          loading: false,
         }));
       } else {
         const { status } = response;
@@ -147,7 +146,7 @@ export const useFeedbackItemsStore = create<Store>()((set, get) => ({
           errorMessage: error.message,
         }));
       }
-
+    } finally {
       set(() => ({
         loading: false,
       }));
