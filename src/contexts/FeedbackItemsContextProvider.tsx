@@ -42,6 +42,7 @@ const FeedbackItemsContextProvider = ({
 
       if (response.ok) {
         console.log('Your feedback has been added!');
+        console.log('server response', response);
       } else {
         const { status } = response;
 
