@@ -49,8 +49,6 @@ const FeedbackItemsContextProvider = ({
         console.error(error.message);
       }
     }
-
-    // TODO: Show a toaster when the server responds with 201-Created status
   };
 
   const handleAddToList = (text: string) => {

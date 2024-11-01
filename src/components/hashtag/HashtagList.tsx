@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
 import HashtagItem from '@/components/hashtag/HashtagItem';
 
-import { useAppContext } from '@/lib/hooks';
+import { useFeedbackItemsStore } from '@/stores/feedbackItemsStore';
+
 import { capitalizeCompanyName } from '@/lib/utils';
 
 type HashtagListFiltersProps = {
@@ -48,12 +50,27 @@ const HashtagListFilters = ({
 };
 
 const HashtagList = () => {
-  const {
-    uniqueCompanyNames,
-    selectedCompanies,
-    handleSelectCompany,
-    handleRemoveSelectedCompany,
-  } = useAppContext('HashtagList');
+  const loading = useFeedbackItemsStore((state) => state.loading);
+  const getUniqueCompanyNames = useFeedbackItemsStore(
+    (state) => state.getUniqueCompanyNames,
+  );
+  const feedbackItems = useFeedbackItemsStore((state) => state.feedbackItems);
+  const selectedCompanies = useFeedbackItemsStore(
+    (state) => state.selectedCompanies,
+  );
+  const handleSelectCompany = useFeedbackItemsStore(
+    (state) => state.selectCompany,
+  );
+  const handleRemoveSelectedCompany = useFeedbackItemsStore(
+    (state) => state.removeSelectedCompany,
+  );
+
+  const uniqueCompanyNames = useMemo(
+    () => getUniqueCompanyNames(),
+    [feedbackItems, selectedCompanies],
+  );
+
+  if (loading) return null;
 
   if (uniqueCompanyNames.length === 0 && selectedCompanies.length === 0)
     return null;
@@ -66,7 +83,7 @@ const HashtagList = () => {
         handleRemoveSelectedCompany={handleRemoveSelectedCompany}
       />
       <ul>
-        {uniqueCompanyNames.map((companyName) => {
+        {uniqueCompanyNames.map((companyName: string) => {
           const capitalizedCompanyName = capitalizeCompanyName(companyName);
 
           return (
