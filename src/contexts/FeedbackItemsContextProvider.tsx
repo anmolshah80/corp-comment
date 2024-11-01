@@ -1,6 +1,6 @@
-import { useState, useEffect, createContext } from 'react';
+import { createContext } from 'react';
 
-import { useAppContext } from '@/lib/hooks';
+import { useFeedbackItems } from '@/lib/hooks';
 import { TFeedbackItem } from '@/lib/types';
 import { URL } from '@/lib/constants';
 import { handleErrorStatuses } from '@/lib/handleErrors';
@@ -22,12 +22,8 @@ export const FeedbackItemsContext = createContext<TFeedbackItemsContext | null>(
 const FeedbackItemsContextProvider = ({
   children,
 }: FeedbackItemsContextProviderProps) => {
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const { feedbackItems, setFeedbackItems } = useAppContext(
-    'FeedbackItemsContextProvider',
-  );
+  const { loading, errorMessage, feedbackItems, setFeedbackItems } =
+    useFeedbackItems();
 
   const postDataToServer = async (newItem: TFeedbackItem) => {
     try {
@@ -76,35 +72,6 @@ const FeedbackItemsContextProvider = ({
 
     postDataToServer(newItem);
   };
-
-  const fetchData = async () => {
-    setLoading(true);
-
-    try {
-      const response = await fetch(URL);
-
-      if (response.ok) {
-        const data = await response.json();
-
-        setFeedbackItems(data.feedbacks);
-        setLoading(false);
-      } else {
-        const { status } = response;
-
-        handleErrorStatuses(status);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      }
-
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <FeedbackItemsContext.Provider
