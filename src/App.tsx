@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import Footer from '@/components/Footer';
 import Container from '@/components/container/Container';
 import HashtagList from '@/components/hashtag/HashtagList';
-import { useFeedbackItemsStore } from './stores/feedbackItemsStore';
+
+import { useFeedbackItemsStore } from '@/stores/feedbackItemsStore';
 
 function App() {
   const fetchFeedbackItems = useFeedbackItemsStore(
