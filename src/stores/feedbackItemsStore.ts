@@ -271,13 +271,7 @@ export const useFeedbackItemsStore = create<Store>()(
           state: { feedbackItems },
         } = JSON.parse(localStorageData);
 
-        if (!feedbackItems || feedbackItems.length === 0) {
-          set(() => ({
-            loading: false,
-          }));
-
-          return;
-        }
+        if (!feedbackItems || feedbackItems.length === 0) return;
 
         set(() => ({
           feedbackItems,
