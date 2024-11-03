@@ -1,6 +1,7 @@
 import { useState } from 'react';
-
 import { TriangleDownIcon, TriangleUpIcon } from '@radix-ui/react-icons';
+
+import { useFeedbackItemsStore } from '@/stores/feedbackItemsStore';
 
 import { TFeedbackItem } from '@/lib/types';
 
@@ -8,20 +9,19 @@ type FeedbackItemProps = {
   feedbackItem: TFeedbackItem;
 };
 
-type VoteType = 'initial' | 'upvote' | 'downvote';
-
 const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
-  const {
-    upvoteCount: initialUpvoteCount,
-    badgeLetter,
-    company,
-    text,
-    daysAgo,
-  } = feedbackItem;
-
   const [open, setOpen] = useState(false);
-  const [upvoteCount, setUpvoteCount] = useState(initialUpvoteCount);
-  const [voteType, setVoteType] = useState<VoteType>('initial');
+
+  const handleUpvoteClick = useFeedbackItemsStore(
+    (state) => state.upvoteButtonClick,
+  );
+
+  const handleDownvoteClick = useFeedbackItemsStore(
+    (state) => state.downvoteButtonClick,
+  );
+
+  const { id, upvoteCount, voteType, badgeLetter, company, text, daysAgo } =
+    feedbackItem;
 
   const feedbackStatus = daysAgo === 0 ? 'NEW' : `${daysAgo}d`;
 
@@ -37,38 +37,6 @@ const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
       ? 'Downvote this feedback'
       : 'You have downvoted this feedback';
 
-  const handleUpvoteClick = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    event.stopPropagation();
-
-    if (voteType === 'initial') {
-      setUpvoteCount((previousCount) => ++previousCount);
-      setVoteType('upvote');
-    }
-
-    if (voteType === 'upvote') {
-      setUpvoteCount((previousCount) => --previousCount);
-      setVoteType('initial');
-    }
-  };
-
-  const handleDownvoteClick = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    event.stopPropagation();
-
-    if (voteType === 'initial') {
-      setUpvoteCount((previousCount) => --previousCount);
-      setVoteType('downvote');
-    }
-
-    if (voteType === 'downvote') {
-      setUpvoteCount((previousCount) => ++previousCount);
-      setVoteType('initial');
-    }
-  };
-
   return (
     <li
       className={feedbackItemClassName}
@@ -76,7 +44,7 @@ const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
     >
       <section>
         <button
-          onClick={handleUpvoteClick}
+          onClick={(event) => handleUpvoteClick(event, id)}
           title={upvoteButtonTitle}
           disabled={voteType === 'downvote'}
           className={voteType === 'upvote' ? 'active-vote-btn' : ''}
@@ -87,7 +55,7 @@ const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
         <span>{upvoteCount}</span>
 
         <button
-          onClick={handleDownvoteClick}
+          onClick={(event) => handleDownvoteClick(event, id)}
           title={downvoteButtonTitle}
           disabled={voteType === 'upvote'}
           className={voteType === 'downvote' ? 'active-vote-btn' : ''}
