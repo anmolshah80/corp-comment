@@ -15,3 +15,4 @@
 - Focus _textarea_ field on `/` (forward slash) keydown
 - Use `Context API` to avoid unnecessary _props drilling_
 - Install and configure `Zustand` to replace the `Context API` currently used in the app
+- Implement a feature that first checks for data in `localStorage`. If the data is not found, the `API` is called to fetch it. If the API call fails or returns no data, the initial/example feedbacks from `data.json` in the `lib` folder are used instead
