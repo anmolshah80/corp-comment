@@ -17,3 +17,6 @@
 - Install and configure `Zustand` to replace the `Context API` currently used in the app
 - Implement a feature that first checks for data in `localStorage`. If the data is not found, the `API` is called to fetch it. If the API call fails or returns no data, the initial/example feedbacks from `data.json` in the `lib` folder are used instead
 - Use `Immer.js` to _add_ and _remove_ selected companies and update an object's properties in **feedbackItems** array while _upvoting_ or _downvoting_ a feedback
+  - Reference articles
+    - [Use Zustand and Immer to Manage the state of your React app](https://dev.to/franciscomendes10866/zustand-and-immer-with-react-5ajh)
+    - [Simplifying State Management with Zustand: Updating Nested Objects](https://dev.to/fazle-rabbi-dev/simplifying-state-management-with-zustand-updating-nested-objects-521g)
