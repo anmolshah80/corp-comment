@@ -16,3 +16,4 @@
 - Use `Context API` to avoid unnecessary _props drilling_
 - Install and configure `Zustand` to replace the `Context API` currently used in the app
 - Implement a feature that first checks for data in `localStorage`. If the data is not found, the `API` is called to fetch it. If the API call fails or returns no data, the initial/example feedbacks from `data.json` in the `lib` folder are used instead
+- Use `Immer.js` to _add_ and _remove_ selected companies and update an object's properties in **feedbackItems** array while _upvoting_ or _downvoting_ a feedback

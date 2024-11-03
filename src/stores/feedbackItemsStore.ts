@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { produce } from 'immer';
 
 import { TFeedbackItem, VoteType } from '@/lib/types';
 import { URL } from '@/lib/constants';
@@ -87,9 +88,11 @@ export const useFeedbackItemsStore = create<Store>()(
       },
 
       selectCompany: (company: string) => {
-        set((state) => ({
-          selectedCompanies: [...state.selectedCompanies, company],
-        }));
+        set(
+          produce((draft) => {
+            draft.selectedCompanies.push(company);
+          }),
+        );
       },
 
       removeSelectedCompany: (company: string) => {
@@ -101,119 +104,59 @@ export const useFeedbackItemsStore = create<Store>()(
           return;
         }
 
-        set((state) => {
-          const filteredCompanies = state.selectedCompanies.filter(
-            (selectedCompany: string) => selectedCompany !== company,
-          );
+        set(
+          produce((draft) => {
+            const companyIndex = draft.selectedCompanies.findIndex(
+              (selectedCompany: string) => selectedCompany === company,
+            );
 
-          return {
-            selectedCompanies: filteredCompanies,
-          };
-        });
+            draft.selectedCompanies.splice(companyIndex, 1);
+          }),
+        );
       },
 
       upvoteButtonClick: (event, feedbackID) => {
         event.stopPropagation();
 
-        // filter out the feedback item with the ID that matches the one in the argument
-        const filteredFeedbackItems = get().feedbackItems.filter(
-          (feedbackItem) => feedbackItem.id !== feedbackID,
+        set(
+          produce((draft) => {
+            const feedbackItem = draft.feedbackItems.find(
+              (feedbackItem: TFeedbackItem) => feedbackItem.id === feedbackID,
+            );
+
+            if (feedbackItem.voteType === 'initial') {
+              feedbackItem.upvoteCount += 1;
+              feedbackItem.voteType = 'upvote';
+
+              return;
+            }
+
+            feedbackItem.upvoteCount -= 1;
+            feedbackItem.voteType = 'initial';
+          }),
         );
-
-        const feedbackItem = get().feedbackItems.find(
-          (feedbackItem) => feedbackItem.id === feedbackID,
-        );
-
-        if (!feedbackItem) return;
-
-        const { voteType, upvoteCount } = feedbackItem;
-
-        if (voteType === 'initial') {
-          const upvotedFeedbackItem = {
-            ...feedbackItem,
-            upvoteCount: upvoteCount + 1,
-            voteType: 'upvote' as VoteType,
-          };
-
-          const newFeedbackItems = [
-            ...filteredFeedbackItems,
-            upvotedFeedbackItem,
-          ].sort((a, b) => b.upvoteCount - a.upvoteCount);
-
-          set(() => ({
-            feedbackItems: newFeedbackItems,
-          }));
-        }
-
-        if (voteType === 'upvote') {
-          set(() => {
-            const upvotedFeedbackItem = {
-              ...feedbackItem,
-              upvoteCount: upvoteCount - 1,
-              voteType: 'initial' as VoteType,
-            };
-
-            const newFeedbackItems = [
-              ...filteredFeedbackItems,
-              upvotedFeedbackItem,
-            ].sort((a, b) => b.upvoteCount - a.upvoteCount);
-
-            return {
-              feedbackItems: newFeedbackItems,
-            };
-          });
-        }
       },
 
       downvoteButtonClick: (event, feedbackID) => {
         event.stopPropagation();
 
-        // filter out the feedback item with the ID that matches the one in the argument
-        const filteredFeedbackItems = get().feedbackItems.filter(
-          (feedbackItem) => feedbackItem.id !== feedbackID,
+        set(
+          produce((draft) => {
+            const feedbackItem = draft.feedbackItems.find(
+              (feedbackItem: TFeedbackItem) => feedbackItem.id === feedbackID,
+            );
+
+            if (feedbackItem.voteType === 'initial') {
+              feedbackItem.upvoteCount -= 1;
+              feedbackItem.voteType = 'downvote';
+
+              return;
+            }
+
+            feedbackItem.upvoteCount += 1;
+            feedbackItem.voteType = 'initial';
+          }),
         );
-
-        const feedbackItem = get().feedbackItems.find(
-          (feedbackItem) => feedbackItem.id === feedbackID,
-        );
-
-        if (!feedbackItem) return;
-
-        const { voteType, upvoteCount } = feedbackItem;
-
-        if (voteType === 'initial') {
-          const downvotedFeedbackItem = {
-            ...feedbackItem,
-            upvoteCount: upvoteCount - 1,
-            voteType: 'downvote' as VoteType,
-          };
-
-          const newFeedbackItems = [
-            ...filteredFeedbackItems,
-            downvotedFeedbackItem,
-          ].sort((a, b) => b.upvoteCount - a.upvoteCount);
-
-          set(() => ({
-            feedbackItems: newFeedbackItems,
-          }));
-        }
-
-        if (voteType === 'downvote') {
-          const downvotedFeedbackItem = {
-            ...feedbackItem,
-            upvoteCount: upvoteCount + 1,
-            voteType: 'initial' as VoteType,
-          };
-
-          const newFeedbackItems = [
-            ...filteredFeedbackItems,
-            downvotedFeedbackItem,
-          ].sort((a, b) => b.upvoteCount - a.upvoteCount);
-
-          set(() => ({
-            feedbackItems: newFeedbackItems,
-          }));
-        }
       },
 
       postDataToServer: async (newItem) => {
