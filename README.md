@@ -4,6 +4,39 @@
 
 - Submit the feedback using feedback form to be rendered in feedback list
 - Install and configure `vite-tsconfig-paths` to use absolute paths for imports
+
+  - To use absolute paths while importing the files inside `src` folder, install `vite-tsconfig-paths` as a dev dependency
+
+  ```bash
+  npm install -D vite-tsconfig-paths
+  ```
+
+  - Add _paths_ key to `tsconfig.app.json`
+
+  ```json
+  {
+    "compilerOptions": {
+      ...all other options
+
+      "paths": {
+        "@/*": ["./src/*"]
+      }
+    }
+  }
+  ```
+
+  - Call `tsconfigPaths` inside the _plugins_ array in `vite.config.ts`
+
+  ```ts
+  import { defineConfig } from 'vite';
+  import react from '@vitejs/plugin-react';
+  import tsconfigPaths from 'vite-tsconfig-paths';
+
+  export default defineConfig({
+    plugins: [tsconfigPaths(), react()],
+  });
+  ```
+
 - Create a component to render the hashtags submitted with the feedback
 - Create the `Spinner`, `ErrorMessage` and `FeedbackList` components to show the loading icon when data is being fetched, render any api errors, and render feedbacks submitted by users respectively
 - Create `handleErrors.ts` file under _lib_ folder to move the switch case statements used to throw errors based on response status codes
