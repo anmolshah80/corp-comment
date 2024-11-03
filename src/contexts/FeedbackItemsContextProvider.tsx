@@ -27,13 +27,16 @@ const FeedbackItemsContextProvider = ({
 
   const postDataToServer = async (newItem: TFeedbackItem) => {
     try {
+      // remove the voteType property from the newItem object and save the remaining properties in the responseBody object
+      const { voteType: _, ...responseBody } = newItem;
+
       const response = await fetch(URL, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newItem),
+        body: JSON.stringify(responseBody),
       });
 
       if (response.ok) {
@@ -61,6 +64,7 @@ const FeedbackItemsContextProvider = ({
       id: new Date().getTime(),
       text: text,
       upvoteCount: 0,
+      voteType: 'initial',
       daysAgo: 0,
       company: company,
       badgeLetter: company.substring(0, 1).toUpperCase(),
