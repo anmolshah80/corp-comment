@@ -37,6 +37,18 @@
   });
   ```
 
+  - You can now import components or other files under the `src` directory following the `@` symbol. For instance, if you have a component under `src/components/container/header/Header.tsx`, you can import it using
+
+  ```tsx
+  import Header from '@/components/container/header/Header';
+
+  ...all other codes
+  ```
+
+  - References
+    - [Streamlining Absolute Imports in React with TypeScript and Vite](https://dev.to/mizanrifat/streamlining-absolute-imports-in-react-with-typescript-and-vite-2bpp)
+    - [Absolute path in Vite project React TS (alias)](https://gist.github.com/luciaaldana/7343c77b56e02a1ab7ed2903c01a843d)
+
 - Create a component to render the hashtags submitted with the feedback
 - Create the `Spinner`, `ErrorMessage` and `FeedbackList` components to show the loading icon when data is being fetched, render any api errors, and render feedbacks submitted by users respectively
 - Create `handleErrors.ts` file under _lib_ folder to move the switch case statements used to throw errors based on response status codes
